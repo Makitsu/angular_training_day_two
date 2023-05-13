@@ -1,0 +1,32 @@
+RxJS
+
+Exercise 1
+
+--
+
+1 - Create a new Angular project using the Angular CLI by running the following command in your terminal.
+
+ng new angular_rxjs_ex1
+
+2 - In the app component (src/app/app.component.ts), import the Observable class from RxJS by adding the following line at the top of the file.
+
+import { Observable } from 'rxjs';
+
+3 - In the AppComponent class, create an observable that emits a sequence of numbers using the Observable.create() method.
+
+const numbers = new Observable<number>((observer) => {
+  let i = 0;
+  setInterval(() => {
+    i++;
+    observer.next(i);
+  }, 1000);
+});
+
+4 - Subscribe to the observable and log the emitted values to the console (in the app component class).
+
+numbers.subscribe((num) => console.log(num));
+
+5 - Open your browser and navigate to http://localhost:4200. You should see the numbers being logged to the console every second.
+
+
+

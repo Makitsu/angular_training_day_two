@@ -1,0 +1,72 @@
+RxJS
+
+Exercise 4
+
+--
+
+1 - Create a new Angular application using the Angular CLI:
+
+ng new angular_rxjs_ex4
+
+2 - In the src/app directory, create a new file called user.service.ts.
+This file will contain a UserService class that fetches data from an API.
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  private apiUrl = 'https://jsonplaceholder.typicode.com/users';
+
+  constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
+  }
+}
+
+3 - In the src/app directory, create a new file called user.component.ts.
+This file will contain a UserComponent class that uses the UserService to fetch and display data from the API.
+
+import { Component, OnInit } from '@angular/core';
+import { UserService } from './user.service';
+
+@Component({
+  selector: 'app-user',
+  template: `
+    <h2>Users:</h2>
+    <ul>
+      <li *ngFor="let user of users">{{ user.name }}</li>
+    </ul>
+  `,
+  styleUrls: ['./user.component.css']
+})
+export class UserComponent implements OnInit {
+  users: any[] = [];
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    ?
+  }
+}
+
+4 - Update the app.component.html file to add the app-user component to the template:
+
+<app-user></app-user>
+
+5 - Import the HttpClientModule from the @angular/common/http package.
+
+@NgModule({
+  declarations: [AppComponent, UserComponent],
+  imports: [BrowserModule, HttpClientModule],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+6 - Run the Angular application with the following command:
+
+ng serve

@@ -1,0 +1,96 @@
+RxJS
+
+Exercise 2
+
+--
+
+1 - Take the same project as exercise 1 ; In the AppComponent class,
+create an observable that fetches data from an API using the Observable.create() method.
+
+
+const data = new Observable((observer) => {
+  fetch('https://jsonplaceholder.typicode.com/todos/1')
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Network response was not ok.');
+      }
+    })
+    .then((json) => {
+      observer.next(json);
+      observer.complete();
+    })
+    .catch((error) => observer.error(error));
+});
+
+2 - Subscribe to the observable and log the emitted values to the console. (in the app component class)
+
+data.subscribe(
+  (value) => console.log(value),
+  (error) => console.error(error),
+  () => console.log('Data stream completed.')
+);
+
+3 - Run the application by running the following command in your terminal:
+
+ng serve
+
+4 - Open your browser and navigate to http://localhost:4200. You should see the fetched data being logged to the console.
+If there is an error in the API call, the error should also be logged to the console.
+Once the observable completes, the completion message should be logged to the console.
+
+5 - In the src/app directory, create a new file called data.service.ts.
+
+6 - Define in this file a class called DataService that provides an observable that fetches data from an API using the Observable.create() method.
+
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  getData(): Observable<any> {
+    return new Observable((observer) => {
+      fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Network response was not ok.');
+          }
+        })
+        .then((json) => {
+          observer.next(json);
+          observer.complete();
+        })
+        .catch((error) => observer.error(error));
+    });
+  }
+}
+
+7 - In the AppComponent class (src/app/app.component.ts), import the DataService class and use dependency injection to provide an instance of the service.
+
+import { Component } from '@angular/core';
+import { DataService } from './data.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>Data:</h1>
+    <p>{{ data | async | json }}</p>
+  `
+})
+export class AppComponent {
+  data = this.dataService.getData();
+
+  constructor(private dataService: DataService) {}
+}
+
+8 - Add the DataService to the providers array of the @NgModule decorator.
+
+9 - Run the application by running the following command in your terminal:
+
+ng serve
+

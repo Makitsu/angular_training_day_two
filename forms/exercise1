@@ -1,0 +1,128 @@
+FORMS
+
+Exercise 1
+
+--
+
+1 - Create a new Angular project using the Angular CLI by opening a terminal or command prompt and entering the following command:
+
+ng new angular_forms_ex1
+
+2 - Generate a new component using the Angular CLI by entering the following command:
+
+ng generate component form-component
+
+3 - Open the "form-component.component.ts" file in your editor and import the following modules:
+
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+4 - Create a new form group using the FormBuilder service:
+
+@Component({
+  selector: 'app-form-component',
+  templateUrl: './form-component.component.html',
+  styleUrls: ['./form-component.component.css']
+})
+export class FormComponentComponent {
+  formGroup: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
+  onSubmit() {
+    console.log(this.formGroup.value);
+  }
+}
+
+5 - Open the "form-component.component.html" file in your editor and add the following code to create a form:
+
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <label for="name">Name</label>
+  <input type="text" id="name" formControlName="name" required>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" formControlName="email" required>
+
+  <label for="password">Password</label>
+  <input type="password" id="password" formControlName="password" required>
+
+  <button type="submit" [disabled]="!formGroup.valid">Submit</button>
+</form>
+
+6 - Open the "app.module.ts" file in your editor and import the ReactiveFormsModule:
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { FormComponentComponent } from './form-component/form-component.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    FormComponentComponent
+  ],
+  imports: [
+    BrowserModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+7 - Open the "app.component.html" file in your editor and add the following code to display the form:
+
+<app-form-component></app-form-component>
+
+8 - Run the project using the following command. Open a web browser and go to "http://localhost:4200/" to see the form in action.
+
+ng serve
+
+9 - How would you retrieve and display the form records submitted by a user in an Angular application? Implement it.
+
+Suggestion :
+
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+interface FormRecord {
+  name: string;
+  email: string;
+  password: string;
+}
+
+@Component({
+  selector: 'app-form-component',
+  templateUrl: './form-component.component.html',
+  styleUrls: ['./form-component.component.css']
+})
+export class FormComponentComponent {
+  formGroup: FormGroup;
+  formRecords: FormRecord[] = [];
+
+  constructor(private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
+  onSubmit() {
+    const formValue = this.formGroup.value;
+    const formRecord: FormRecord = {
+      name: formValue.name,
+      email: formValue.email,
+      password: formValue.password
+    };
+    this.formRecords.push(formRecord);
+    console.log(formRecord);
+  }
+}

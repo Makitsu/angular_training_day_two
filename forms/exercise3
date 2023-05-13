@@ -1,0 +1,46 @@
+FORMS
+
+Exercise 3
+
+--
+
+1 - Take the exercise 1 project
+
+@Component({
+  selector: 'app-form-component',
+  templateUrl: './form-component.component.html',
+  styleUrls: ['./form-component.component.css']
+})
+export class FormComponentComponent {
+  formGroup: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {
+    this.formGroup = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
+  onSubmit() {
+    console.log(this.formGroup.value);
+  }
+}
+
+2 - Add validators to check email, password length (length between 6 to 18)
+
+3 - Provide an alernative to check email from REGEX validator feature
+
+4 - Modify the form like this :
+
+this.formGroup = this.formBuilder.group({
+  name: ['', [Validators.required]],
+  email: ['', [Validators.required, Validators.email]],
+  password: ['', [Validators.required, Validators.minLength(8)]],
+  confirmPassword: ['', Validators.required]
+});
+
+Note that I've also added a new field called confirmPassword, which will be used to confirm that the user has entered the password correctly.
+
+5 - Create the custom validator that checks that the password and confirmPassword fields match : Create a function outside of the FormComponentComponent
+class that takes in a FormGroup and returns a validation error object if the fields do not match.

@@ -1,0 +1,79 @@
+FORMS
+
+Exercise 4
+
+--
+
+1 - Create a new Angular project using the Angular CLI by opening a terminal or command prompt and entering the following command:
+
+ng new angular_forms_ex4
+
+2 - Generate a new component using the Angular CLI. Enter the following command:
+
+ng generate component form-array
+
+3 - Open the form-array.component.ts file in your editor and import the necessary modules:
+
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+
+4 - Define a FormGroup instance variable to hold the form values and a FormArray instance variable to hold the form array values:
+
+@Component({
+  selector: 'app-form-array',
+  templateUrl: './form-array.component.html',
+  styleUrls: ['./form-array.component.css']
+})
+export class FormArrayComponent {
+  form: FormGroup;
+  formArray: FormArray;
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.form = this.fb.group({
+      formArray: this.fb.array([])
+    });
+    this.formArray = this.form.get('formArray') as FormArray;
+  }
+}
+
+5 - Add a method to create new form controls for the FormArray:
+
+createItem(): FormGroup {
+  return this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]]
+  });
+}
+
+6 - Add a method to add new items to the FormArray:
+
+addItem(): void {
+  this.formArray.push(this.createItem());
+}
+
+7 - Add a method to remove items from the FormArray:
+
+removeItem(index: number): void {
+  this.formArray.removeAt(index);
+}
+
+8 - In the form-array.component.html file, add the following code to display the form array controls and buttons to add and remove items:
+
+<form [formGroup]="form">
+  <div formArrayName="formArray">
+    <div *ngFor="let item of formArray.controls; let i=index" [formGroupName]="i">
+      <label for="name{{i}}">Name:</label>
+      <input type="text" id="name{{i}}" formControlName="name">
+      <br>
+      <label for="email{{i}}">Email:</label>
+      <input type="email" id="email{{i}}" formControlName="email">
+      <br>
+      <button type="button" (click)="removeItem(i)">Remove</button>
+    </div>
+  </div>
+  <button type="button" (click)="addItem()">Add Item</button>
+</form>
+
+9 - Test it !

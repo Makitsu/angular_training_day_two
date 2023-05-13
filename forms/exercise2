@@ -1,0 +1,82 @@
+FORMS
+
+Exercise 2
+
+--
+
+1 - Create a new Angular project. Open a terminal or command prompt and enter the following command:
+
+ng new angular_forms_ex2
+
+2 - Create a new component. Open a terminal or command prompt, navigate to the project directory and enter the following command:
+
+ng generate component contact-form
+
+3 - Open the contact-form.component.html file in your editor and add the following code:
+
+<form (ngSubmit)="onSubmit(contactForm)" #contactForm="ngForm">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" class="form-control" [(ngModel)]="name" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" required email>
+  </div>
+  <div class="form-group">
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" class="form-control" [(ngModel)]="message" required></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+4 - Open the contact-form.component.ts file in your editor and add the following code:
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-contact-form',
+  templateUrl: './contact-form.component.html',
+  styleUrls: ['./contact-form.component.css']
+})
+export class ContactFormComponent {
+  name: string;
+  email: string;
+  message: string;
+
+  onSubmit(form) {
+    if (form.valid) {
+      console.log('Form submitted!', form.value);
+    }
+  }
+}
+
+5 - Open the app.module.ts file in your editor and add the following code:
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { AppComponent } from './app.component';
+import { ContactFormComponent } from './contact-form/contact-form.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ContactFormComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+6 - Open the app.component.html file in your editor and add the following code:
+
+<app-contact-form></app-contact-form>
+
+7 - Start the app by running the following command in your terminal or command prompt:
+
+ng serve --open

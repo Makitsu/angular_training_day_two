@@ -1,0 +1,87 @@
+RxJS
+
+Exercise 3
+
+--
+
+1 - Create a new Angular project using the Angular CLI by running the following command in your terminal.
+
+ng new angular_rxjs_ex3
+
+2 - In the src/app directory, create a new file called logger.service.ts.
+
+3 - In the logger.service.ts file, define a class called LoggerService that provides a method called log() that logs a message to the console.
+
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoggerService {
+  log(message: string): void {
+    console.log(`[LoggerService]: ${message}`);
+  }
+}
+
+4 - In the src/app directory, create a new file called user.service.ts.
+
+5 - In the user.service.ts file, define a class called UserService that depends on the LoggerService.
+The UserService class should provide a method called getUser() that returns a dummy user object and logs a message using the LoggerService.
+
+import { Injectable } from '@angular/core';
+import { LoggerService } from './logger.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+  constructor(private logger: LoggerService) {}
+
+  getUser() {
+    this.logger.log('Getting user');
+    return {
+      name: 'John Doe',
+      age: 30,
+      email: 'johndoe@example.com'
+    };
+  }
+}
+
+6 - In the AppComponent class (src/app/app.component.ts), import the UserService class and use dependency injection to provide an instance of the service.
+
+
+import { Component } from '@angular/core';
+import { UserService } from './user.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <h1>User:</h1>
+    <p>{{ user.name }}</p>
+    <p>{{ user.age }}</p>
+    <p>{{ user.email }}</p>
+  `
+})
+export class AppComponent {
+  user = this.userService.getUser();
+
+  constructor(private userService: UserService) {}
+}
+
+7 - Add the LoggerService and UserService to the providers array of the @NgModule decorator.
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [LoggerService, UserService],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+8 - Run the application by running the following command in your terminal:
+
+ng serve
+
+
+
+
