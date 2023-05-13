@@ -1,0 +1,24 @@
+RxJS
+
+Exercise 5
+
+--
+
+CREATE TABLE company (
+  id INTEGER PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  address VARCHAR(255),
+  phone VARCHAR(20),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+1 - Build a corresponding class
+
+2 - Based on previous experience, provide a service (client) to consume the following CRUD api :
+
+GET /companies
+GET /companies/:id
+POST /companies
+PUT /companies/:id
+DELETE /companies/:id
